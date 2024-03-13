@@ -1,15 +1,12 @@
-import "./App.css";
 import { Footer } from "./components/Footer/Footer";
 import AppRoutes from "./routes";
+import { GlobalStyled } from "./AppStyled.js";
 
 function App() {
   return (
     <>
-      <div className="wrapper">
-        <div className="container">
-          <AppRoutes />
-        </div>
-      </div>
+      <GlobalStyled />
+      <AppRoutes />
       <Footer />
     </>
   );

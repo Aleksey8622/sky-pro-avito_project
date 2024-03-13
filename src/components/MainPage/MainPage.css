@@ -43,7 +43,7 @@
     line-height: 1;
 }
 
-.main__container {
+.main-page__container {
     max-width: 1178px;
     margin: 0 auto;
     padding: 52px 10px 37px;
@@ -76,7 +76,7 @@
 }
 
 .main__content {
-    width: 100%;
+    min-width: 100%;
     margin: 0 auto;
 }
 
@@ -166,14 +166,15 @@
     color: #FFFFFF;
 }
 
-.cards {
+.cards__main_page {
     max-width: 1158px;
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 270px);
+    grid-auto-rows: 441px;
+    grid-gap: 40px 23px;
     justify-content: center;
-    overflow-y: scroll;
+    overflow-y: auto;
     scrollbar-color: #FFFFFF #2E2E2E;
     scrollbar-width: thin;
     scrollbar-width: 0px;
@@ -184,21 +185,29 @@
 }
 
 /* .content__cards {
-    width: auto;
-} */
+    max-width: 1158px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 270px);
+    grid-auto-rows: 441px;
+    grid-gap: 40px 26px;
+    justify-content: center;
+    overflow-y: auto;
+    scrollbar-color: #FFFFFF #2E2E2E;
+    scrollbar-width: thin;
+    scrollbar-width: 0px;
+    height: 922px;
+}
 
-/* -ms-grid-columns: (270px) [4]; */
-/* grid-template-columns: repeat(4, 270px);
-grid-auto-rows: 441px;
-grid-gap: 40px 26px;
--webkit-box-pack: center;
--ms-flex-pack: center;
-justify-content: center;
-overflow-y: auto;
-scrollbar-color: #FFFFFF #2E2E2E;
-scrollbar-width: thin;
-scrollbar-width: 0px;
-height: 922px; */
+.content__cards::-webkit-scrollbar-thumb {
+    background-color: #0080C1;
+    border-radius: 3px;
+}
+
+.content__cards::-webkit-scrollbar {
+    width: 0px;
+    background-color: #009EE4;
+} */
 
 .cards::-webkit-scrollbar {
     width: 0px;

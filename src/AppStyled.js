@@ -1,8 +1,12 @@
+import { createGlobalStyle } from "styled-components";
+
+export const GlobalStyled = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+
 }
 
 *:before,
@@ -26,6 +30,11 @@ button,
 ul li {
   list-style: none;
 }
+
+#root {
+  height: 100%;
+}
+
 
 html,
 body {
@@ -62,3 +71,4 @@ a {
   margin: 0 auto;
   background-color: #FFFFFF;
 }
+`;

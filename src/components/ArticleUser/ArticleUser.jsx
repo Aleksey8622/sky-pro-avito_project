@@ -1,14 +1,14 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import ArticleHeader from "../ArticleHeader/ArticleHeader";
 import BackButton from "../BackButton/BackButton";
-import Atclsettings from "../modal/atclsettings/Atclsettings";
-import "./MyArticle.css";
-function MyArticle() {
-  const [modalAtclsettings, setmodalAtclsettings] = useState(false);
+import Reviews from "../modal/reviews/Reviews";
+import "./ArticleUser.css";
+function ArticleUser() {
+  const [modalFeedbackActive, setModalFeedbackActive] = useState(false);
   return (
     <>
       <ArticleHeader />
-
       <main className="main">
         <div className="main__container">
           <BackButton />
@@ -58,35 +58,32 @@ function MyArticle() {
                 <div className="article__info">
                   <p className="article__date">Сегодня в 10:45</p>
                   <p className="article__city">Санкт-Петербург</p>
-                  <a className="article__link" href="" target="_blank" rel="">
-                    4 отзыва
-                  </a>
+                  <p
+                    className="article__link"
+                    onClick={() => setModalFeedbackActive(true)}
+                  >
+                    23 отзыва
+                  </p>
+                  <Reviews
+                    modalFeedbackActive={modalFeedbackActive}
+                    setModalFeedbackActive={setModalFeedbackActive}
+                  />
                 </div>
                 <p className="article__price">2 200 ₽</p>
-                <div className="article__btn-block">
-                  <button
-                    className="article__btn btn-redact btn-hov02"
-                    onClick={() => setmodalAtclsettings(true)}
-                  >
-                    Редактировать
-                  </button>
-                  <Atclsettings
-                    modalAtclsettings={modalAtclsettings}
-                    setmodalAtclsettings={setmodalAtclsettings}
-                  />
-                  <button className="article__btn btn-remove btn-hov02">
-                    Снять с публикации
-                  </button>
-                </div>
-
+                <button className="article__btn btn-hov02">
+                  Показать&nbsp;телефон
+                  <span>8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
+                </button>
                 <div className="article__author author">
                   <div className="author__img">
                     <img src="" alt="" />
                   </div>
                   <div className="author__cont">
-                    <p className="author__name">Антон</p>
+                    <Link to="/sellerprofile">
+                      <p className="author__name">Кирилл</p>
+                    </Link>
                     <p className="author__about">
-                      Продает товары с&nbsp;мая 2022
+                      Продает товары с августа 2021
                     </p>
                   </div>
                 </div>
@@ -97,7 +94,7 @@ function MyArticle() {
 
         <div className="main__container">
           <h3 className="main__title title">Описание товара</h3>
-          <div className="main__content_artic">
+          <div className="main__content">
             <p className="main__text">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
@@ -114,4 +111,4 @@ function MyArticle() {
   );
 }
 
-export default MyArticle;
+export default ArticleUser;
