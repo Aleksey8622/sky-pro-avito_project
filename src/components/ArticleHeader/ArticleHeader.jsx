@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Addnewat from "../modal/addnewat/Addnewat";
 
 import "../MyArticle/MyArticle.css";
@@ -20,9 +21,11 @@ function ArticleHeader() {
           Разместить объявление
         </button>
         <Addnewat modalEdit={modalEdit} setModalEdit={setModalEdit} />
-        <button className="header__btn-lk btn-hov01" id="btnlk">
-          Личный кабинет
-        </button>
+        <Link to="/profile">
+          <button className="header__btn-lk btn-hov01" id="btnlk">
+            Личный кабинет
+          </button>
+        </Link>
       </nav>
     </header>
   );

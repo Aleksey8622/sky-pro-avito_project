@@ -7,14 +7,10 @@ import "./SellerProfile.css";
 function SellerProfile() {
   return (
     <>
-      <ArticleHeader />
       <main className="main">
         <div className="main__container">
           <div className="main__center-block">
-            <BackButton />
-
             <h2 className="main__h2">Профиль продавца</h2>
-
             <div className="main__profile-sell profile-sell">
               <div className="profile-sell__content">
                 <div className="profile-sell__seller seller">

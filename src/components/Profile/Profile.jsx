@@ -1,20 +1,14 @@
 import React, { useState } from "react";
 import Advertisement from "../Advertisement/Advertisement";
-import ArticleHeader from "../ArticleHeader/ArticleHeader";
-import BackButton from "../BackButton/BackButton";
 import "./Profile.css";
 function Profile() {
   const [state, setState] = useState("");
   return (
     <>
-      <ArticleHeader />
       <main className="main">
         <div className="main__container">
           <div className="main__center-block">
-            <BackButton />
-
             <h2 className="main__h2">Здравствуйте, Антон!</h2>
-
             <div className="main__profile profile">
               <div className="profile__content">
                 <h3 className="profile__title title">Настройки профиля</h3>

@@ -1,19 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import ArticleHeader from "../ArticleHeader/ArticleHeader";
-import BackButton from "../BackButton/BackButton";
 import Reviews from "../modal/reviews/Reviews";
 import "./ArticleUser.css";
 function ArticleUser() {
   const [modalFeedbackActive, setModalFeedbackActive] = useState(false);
   return (
     <>
-      <ArticleHeader />
       <main className="main">
-        <div className="main__container">
-          <BackButton />
-        </div>
-
         <div className="main__artic artic">
           <div className="artic__content article">
             <div className="article__left">

@@ -5,15 +5,11 @@ import Atclsettings from "../modal/atclsettings/Atclsettings";
 import "./MyArticle.css";
 function MyArticle() {
   const [modalAtclsettings, setmodalAtclsettings] = useState(false);
+
   return (
     <>
-      <ArticleHeader />
-
       <main className="main">
-        <div className="main__container">
-          <BackButton />
-        </div>
-
+        
         <div className="main__artic artic">
           <div className="artic__content article">
             <div className="article__left">
@@ -58,9 +54,7 @@ function MyArticle() {
                 <div className="article__info">
                   <p className="article__date">Сегодня в 10:45</p>
                   <p className="article__city">Санкт-Петербург</p>
-                  <a className="article__link" href="" target="_blank" rel="">
-                    4 отзыва
-                  </a>
+                  <p className="article__link">4 отзыва</p>
                 </div>
                 <p className="article__price">2 200 ₽</p>
                 <div className="article__btn-block">
