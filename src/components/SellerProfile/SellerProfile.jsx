@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Advertisement from "../Advertisement/Advertisement";
+import Advertisement from "../MainPage/Advertisement/Advertisement";
 import ArticleHeader from "../ArticleHeader/ArticleHeader";
 import BackButton from "../BackButton/BackButton";
 import "./SellerProfile.css";
