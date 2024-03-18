@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Reviews from "../modal/reviews/Reviews";
+
 import "./ArticleUser.css";
 function ArticleUser() {
-  const [modalFeedbackActive, setModalFeedbackActive] = useState(false);
+
   return (
     <>
       <main className="main">
@@ -53,14 +53,10 @@ function ArticleUser() {
                   <p className="article__city">Санкт-Петербург</p>
                   <p
                     className="article__link"
-                    onClick={() => setModalFeedbackActive(true)}
+                   
                   >
                     23 отзыва
                   </p>
-                  <Reviews
-                    modalFeedbackActive={modalFeedbackActive}
-                    setModalFeedbackActive={setModalFeedbackActive}
-                  />
                 </div>
                 <p className="article__price">2 200 ₽</p>
                 <button className="article__btn btn-hov02">

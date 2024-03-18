@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import "./AtclsettingsStyle.css";
-function Atclsettings({ modalAtclsettings, setmodalAtclsettings }) {
-  const [state, setState] = useState("");
+function Atclsettings() {
+ 
   return (
     <>
-      {modalAtclsettings && (
+      
         <div
           className="modal__block-atclsettings"
-          onClick={() => setmodalAtclsettings(false)}
+         
         >
           <div
             className="modal__content-atclsettings"
@@ -17,7 +17,7 @@ function Atclsettings({ modalAtclsettings, setmodalAtclsettings }) {
             <div className="modal__btn-close">
               <div
                 className="modal__btn-close-line"
-                onClick={() => setmodalAtclsettings(false)}
+              
               ></div>
             </div>
             <form
@@ -28,7 +28,7 @@ function Atclsettings({ modalAtclsettings, setmodalAtclsettings }) {
               <div className="form-newArt__block">
                 <label htmlFor="name">Название</label>
                 <input
-                  onChange={(e) => setState(e.target.value)}
+                  
                   className="form-newArt__input"
                   type="text"
                   name="name"
@@ -40,7 +40,7 @@ function Atclsettings({ modalAtclsettings, setmodalAtclsettings }) {
               <div className="form-newArt__block">
                 <label htmlFor="text">Описание</label>
                 <textarea
-                  onChange={(e) => setState(e.target.value)}
+                  
                   className="form-newArt__area"
                   name="text"
                   id="formArea"
@@ -93,7 +93,7 @@ function Atclsettings({ modalAtclsettings, setmodalAtclsettings }) {
                   name="price"
                   id="formName"
                   value="2 200"
-                  onChange={(e) => setState(e.target.value)}
+                  
                 />
                 <div className="form-newArt__input-price-cover"></div>
               </div>
@@ -107,7 +107,7 @@ function Atclsettings({ modalAtclsettings, setmodalAtclsettings }) {
             </form>
           </div>
         </div>
-      )}
+    
     </>
   );
 }

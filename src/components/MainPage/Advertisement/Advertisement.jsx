@@ -1,10 +1,14 @@
 import React from "react";
 import "../MainPage.css";
-import moment from "moment";
 function Advertisement({ item, created_on }) {
+  let moment = require("moment");
+  require("moment/locale/ru");
+
   const formattedDuration = moment
     .utc(created_on)
-    .format("dddd, MMMM DD YYYY, h:mm:ss");
+    .format(`dddd,DD.MM.YYYY, h:mm:ss`)
+    .split(",");
+
   return (
     <div className="cards__item" key={item.id}>
       <div className="cards__card card">
@@ -24,7 +28,10 @@ function Advertisement({ item, created_on }) {
           </a>
           <p className="card__price">{item.price} ₽</p>
           <p className="card__place">Санкт Петербург</p>
-          <p className="card__date">{formattedDuration}</p>
+          <p className="card__date">{formattedDuration[0]}</p>
+          <p className="card__date">
+            {formattedDuration[1] + formattedDuration[2]}
+          </p>
         </div>
       </div>
     </div>

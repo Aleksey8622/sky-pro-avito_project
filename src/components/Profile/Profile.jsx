@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Advertisement from "../MainPage/Advertisement/Advertisement";
 import "./Profile.css";
 function Profile() {
-  const [state, setState] = useState("");
   return (
     <>
       <main className="main">
@@ -32,7 +31,6 @@ function Profile() {
                       <div className="settings__div">
                         <label htmlFor="fname">Имя</label>
                         <input
-                          onChange={(e) => setState(e.target.value)}
                           className="settings__f-name"
                           id="settings-fname"
                           name="fname"
@@ -45,7 +43,6 @@ function Profile() {
                       <div className="settings__div">
                         <label htmlFor="lname">Фамилия</label>
                         <input
-                          onChange={(e) => setState(e.target.value)}
                           className="settings__l-name"
                           id="settings-lname"
                           name="lname"
@@ -58,7 +55,6 @@ function Profile() {
                       <div className="settings__div">
                         <label htmlFor="city">Город</label>
                         <input
-                          onChange={(e) => setState(e.target.value)}
                           className="settings__city"
                           id="settings-city"
                           name="city"
@@ -71,7 +67,6 @@ function Profile() {
                       <div className="settings__div">
                         <label htmlFor="phone">Телефон</label>
                         <input
-                          onChange={(e) => setState(e.target.value)}
                           className="settings__phone"
                           id="settings-phone"
                           name="phone"

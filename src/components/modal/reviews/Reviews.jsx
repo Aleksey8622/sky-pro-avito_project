@@ -1,16 +1,16 @@
 import React from "react";
 import "./reviewsStyle.css";
-function Reviews({ modalFeedbackActive, setModalFeedbackActive }) {
+function Reviews() {
   return (
     <>
-      {modalFeedbackActive && (
+      
         <div className="modal__block-feedback">
           <div className="modal__content-feedback" onClick={(e) => e.stopPropagation()}>
             <h3 className="modal__title">Отзывы о товаре</h3>
             <div className="modal__btn-close">
               <div
                 className="modal__btn-close-line"
-                onClick={() => setModalFeedbackActive(false)}
+                
               ></div>
             </div>
             <div className="modal__scroll">
@@ -147,7 +147,6 @@ function Reviews({ modalFeedbackActive, setModalFeedbackActive }) {
             </div>
           </div>
         </div>
-      )}
     </>
   );
 }
