@@ -88,4 +88,5 @@ export const advertisementApi = createApi({
   }),
 });
 
-export const { useGetAdvertisementsQuery } = advertisementApi;
+export const { useGetAdvertisementsQuery, useCreateAdTextMutation } =
+  advertisementApi;

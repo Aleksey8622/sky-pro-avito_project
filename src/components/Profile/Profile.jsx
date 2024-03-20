@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Advertisement from "../MainPage/Advertisement/Advertisement";
 import "./Profile.css";
 function Profile() {
   return (
@@ -91,18 +90,7 @@ function Profile() {
             <h3 className="main__title title">Мои товары</h3>
           </div>
           <div className="main__content">
-            <div className="content__cards cards__profile">
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-            </div>
+            <div className="content__cards cards__profile"></div>
           </div>
         </div>
       </main>
