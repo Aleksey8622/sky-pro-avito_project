@@ -11,6 +11,7 @@ import Layout from "./components/layout/Layout";
 import Addnewat from "./components/modal/addnewat/Addnewat";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import AuthProvider from "./context/AuthProvider";
+
 function AppRoutes() {
   const location = useLocation();
   const background = location && location?.state?.background;
@@ -21,8 +22,10 @@ function AppRoutes() {
           <Route path="/" element={<HomePage />}></Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/article" element={<UsersAnnouncement />}>
-              <Route path="edit" element={<Atclsettings />}></Route>
-              <Route path="reviews" element={<Reviews />}></Route>
+              
+                <Route path="edit" element={<Atclsettings />}></Route>
+                <Route path="reviews" element={<Reviews />}></Route>
+              
             </Route>
             <Route path="/profile" element={<PersonalAccount />}></Route>
             <Route path="/sellerprofile" element={<UsersAccount />}></Route>

@@ -4,7 +4,7 @@ import { useGetAdvertisementsQuery } from "../../store/redux/api-advertisement";
 import Advertisement from "./Advertisement/Advertisement";
 import "./MainPage.css";
 const MainPage = () => {
-  const { data } = useGetAdvertisementsQuery;
+  const { data } = useGetAdvertisementsQuery();
   useEffect(() => {
     console.log(data);
   }, [data]);
