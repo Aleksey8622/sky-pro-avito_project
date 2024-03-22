@@ -22,7 +22,7 @@ export const advertisementApi = createApi({
     getCurrentUserAds: builder.query({
       query: () => "/ads/me",
     }),
-    getCurrentUserAdsId: builder.query({
+    getAdId: builder.query({
       query: ({ id }) => `/ads/${id}`,
     }),
     getAdReviews: builder.query({
@@ -88,5 +88,13 @@ export const advertisementApi = createApi({
   }),
 });
 
-export const { useGetAdvertisementsQuery, useCreateAdTextMutation } =
-  advertisementApi;
+export const {
+  useGetAdvertisementsQuery,
+  useCreateAdTextMutation,
+  useGetCurrentUserAdsQuery,
+  useCreateAdMutation,
+  useGetAdIdQuery,
+  useAddImgMutation,
+  useEditAdMutation,
+  useDeleteImgMutation,
+} = advertisementApi;

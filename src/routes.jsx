@@ -21,11 +21,9 @@ function AppRoutes() {
         <Routes location={background || location}>
           <Route path="/" element={<HomePage />}></Route>
           <Route element={<ProtectedRoute />}>
-            <Route path="/article" element={<UsersAnnouncement />}>
-              
-                <Route path="edit" element={<Atclsettings />}></Route>
-                <Route path="reviews" element={<Reviews />}></Route>
-              
+            <Route path="/article/:id/*" element={<UsersAnnouncement />}>
+              <Route path="edit" element={<Atclsettings />}></Route>
+              <Route path="reviews" element={<Reviews />}></Route>
             </Route>
             <Route path="/profile" element={<PersonalAccount />}></Route>
             <Route path="/sellerprofile" element={<UsersAccount />}></Route>

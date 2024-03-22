@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
+
 import { useAuth } from "../../context/useAuth";
 
 import "../MyArticle/MyArticle.css";
 function ArticleHeader() {
   const location = useLocation();
   const { isAuth } = useAuth();
+  const { logout } = useContext(AuthContext);
+
   return (
     <header className="header">
       <nav className="header__nav">
@@ -25,6 +29,13 @@ function ArticleHeader() {
             </Link>
             <Link className="header__btn-main-enter btn-hov01" to="/profile">
               Личный кабинет
+            </Link>
+            <Link
+              className="header__btn-main-enter btn-hov01"
+              to="/"
+              onClick={() => logout()}
+            >
+              Выход
             </Link>
           </>
         ) : (

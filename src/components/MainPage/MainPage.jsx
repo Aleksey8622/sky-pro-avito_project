@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useGetAdvertisementsQuery } from "../../store/redux/api-advertisement";
 
 import Advertisement from "./Advertisement/Advertisement";

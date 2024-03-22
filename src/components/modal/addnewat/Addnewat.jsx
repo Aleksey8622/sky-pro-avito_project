@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCreateAdTextMutation } from "../../../store/redux/api-advertisement";
+import {
+  useCreateAdMutation,
+  useCreateAdTextMutation,
+} from "../../../store/redux/api-advertisement";
+import ImgInput from "../../ImgInput/ImgInput";
 import LayoutModal from "../../layoutModal/LayoutModal";
 import "./AddnewatStyle.css";
 function Addnewat({ modalEdit, setModalEdit }) {
+  const [preview, setPreview] = useState(Array(5).fill(null));
   const navigate = useNavigate();
+  const [addImgAd] = useCreateAdMutation();
   const [addTextAd] = useCreateAdTextMutation();
   const [adData, setAdData] = useState({
     title: "",
@@ -32,7 +38,51 @@ function Addnewat({ modalEdit, setModalEdit }) {
           alert("Отправленно");
           navigate(-1);
         });
+    } else {
+      const data = new FormData();
+      for (const img of adData.images) {
+        data.append("files", img.file);
+      }
+      addImgAd({
+        title: adData.title,
+        description: adData.description,
+        price: adData.price,
+        images: data,
+      })
+        .unwrap()
+        .then((value) => {
+          alert("Отправленно");
+          navigate(-1);
+        });
     }
+  };
+  const onImgChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (adData.images.length === 5) {
+        alert("много картинок");
+        return;
+      }
+      const index = adData.images.length;
+      setAdData({
+        ...adData,
+        images: [...adData.images, { id: index, file }],
+      });
+      const url = URL.createObjectURL(file);
+      const newPreview = [...preview];
+      newPreview.splice(index, 1, { url, id: index });
+      setPreview(newPreview);
+    }
+  };
+  const onDelete = (e, id) => {
+    e.stopPropagation();
+    const newPreview = [...preview];
+    const index = newPreview.findIndex((item) => item.id === id);
+    newPreview.splice(index, 1);
+    newPreview.push(null);
+    setPreview(newPreview);
+    const images = adData.images.filter((elem) => elem.id !== id);
+    setAdData({ ...adData, images });
   };
   return (
     <LayoutModal>
@@ -64,33 +114,11 @@ function Addnewat({ modalEdit, setModalEdit }) {
             placeholder="Введите описание"
           ></textarea>
         </div>
-        <div className="form-newArt__block">
-          <p className="form-newArt__p">
-            Фотографии товара<span>не более 5 фотографий</span>
-          </p>
-          <div className="form-newArt__bar-img">
-            <div className="form-newArt__img">
-              <img src="" alt="" />
-              <div className="form-newArt__img-cover"></div>
-            </div>
-            <div className="form-newArt__img">
-              <img src="" alt="" />
-              <div className="form-newArt__img-cover"></div>
-            </div>
-            <div className="form-newArt__img">
-              <div className="form-newArt__img-cover"></div>
-              <img src="" alt="" />
-            </div>
-            <div className="form-newArt__img">
-              <div className="form-newArt__img-cover"></div>
-              <img src="" alt="" />
-            </div>
-            <div className="form-newArt__img">
-              <div className="form-newArt__img-cover"></div>
-              <img src="" alt="" />
-            </div>
-          </div>
-        </div>
+        <ImgInput
+          preview={preview}
+          onChange={onImgChange}
+          onDelete={onDelete}
+        />
         <div className="form-newArt__block block-price">
           <label htmlFor="price">Цена</label>
           <input

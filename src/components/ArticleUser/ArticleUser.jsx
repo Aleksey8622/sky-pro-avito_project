@@ -1,9 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { useGetAdIdQuery } from "../../store/redux/api-advertisement";
 
 import "./ArticleUser.css";
 function ArticleUser() {
-
+  const { id } = useParams();
+  const { data } = useGetAdIdQuery({ id });
+  const userData = useSelector((state) => state.user.user);
+  const { pathname } = useLocation();
   return (
     <>
       <main className="main">
@@ -12,27 +17,27 @@ function ArticleUser() {
             <div className="article__left">
               <div className="article__fill-img">
                 <div className="article__img">
-                  <img src="" alt="" />
+                  <img
+                    src={
+                      data?.images
+                        ? `http://localhost:8090/${data.images[0]?.url}`
+                        : "/img/no_foto.png"
+                    }
+                    alt=""
+                  />
                 </div>
+
                 <div className="article__img-bar">
-                  <div className="article__img-bar-div">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="article__img-bar-div">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="article__img-bar-div">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="article__img-bar-div">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="article__img-bar-div">
-                    <img src="" alt="" />
-                  </div>
-                  <div className="article__img-bar-div">
-                    <img src="" alt="" />
-                  </div>
+                  {data?.images
+                    ? data.images.map((img) => (
+                        <div className="article__img-bar-div">
+                          <img
+                            src={`http://localhost:8090/${img.url}`}
+                            alt=""
+                          />
+                        </div>
+                      ))
+                    : "Фотографии нет"}
                 </div>
                 <div className="article__img-bar-mob img-bar-mob">
                   <div className="img-bar-mob__circle circle-active"></div>
@@ -45,34 +50,35 @@ function ArticleUser() {
             </div>
             <div className="article__right">
               <div className="article__block">
-                <h3 className="article__title title">
-                  Ракетка для большого тенниса Triumph Pro STС Б/У
-                </h3>
+                <h3 className="article__title title">{data?.title}</h3>
                 <div className="article__info">
-                  <p className="article__date">Сегодня в 10:45</p>
-                  <p className="article__city">Санкт-Петербург</p>
-                  <p
-                    className="article__link"
-                   
-                  >
-                    23 отзыва
-                  </p>
+                  <p className="article__date">{data?.created_on}</p>
+                  <p className="article__city">{data?.user.city}</p>
+                  <p className="article__link">23 отзыва</p>
                 </div>
-                <p className="article__price">2 200 ₽</p>
+                <p className="article__price">{data?.price}</p>
                 <button className="article__btn btn-hov02">
                   Показать&nbsp;телефон
-                  <span>8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
+                  <span>{data?.user.phone}</span>
                 </button>
+                {data?.user_id === userData?.id && (
+                  <Link
+                    className="article__btn btn-hov02"
+                    to={`${pathname}/edit`}
+                  >
+                    <span>Редактировать</span>
+                  </Link>
+                )}
                 <div className="article__author author">
                   <div className="author__img">
                     <img src="" alt="" />
                   </div>
                   <div className="author__cont">
                     <Link to="/sellerprofile">
-                      <p className="author__name">Кирилл</p>
+                      <p className="author__name">{data?.user.name}</p>
                     </Link>
                     <p className="author__about">
-                      Продает товары с августа 2021
+                      Продает товары с {data?.user.sells_from}
                     </p>
                   </div>
                 </div>
@@ -84,15 +90,7 @@ function ArticleUser() {
         <div className="main__container">
           <h3 className="main__title title">Описание товара</h3>
           <div className="main__content">
-            <p className="main__text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <p className="main__text">{data?.description}</p>
           </div>
         </div>
       </main>

@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useGetCurrentUserAdsQuery } from "../../store/redux/api-advertisement";
+import Advertisement from "../MainPage/Advertisement/Advertisement";
 import "./Profile.css";
 function Profile() {
+  const { data } = useGetCurrentUserAdsQuery();
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
   return (
     <>
       <main className="main">
@@ -90,7 +96,17 @@ function Profile() {
             <h3 className="main__title title">Мои товары</h3>
           </div>
           <div className="main__content">
-            <div className="content__cards cards__profile"></div>
+            <div className="content__cards cards__profile">
+              {data?.map((item) => {
+                return (
+                  <Advertisement
+                    key={item.id}
+                    item={item}
+                    created_on={item.created_on}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
       </main>
