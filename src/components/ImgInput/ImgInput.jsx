@@ -9,6 +9,7 @@ function ImgInput({ onChange, onDelete, preview }) {
     onChange(e);
     ref.current.value = "";
   };
+ 
   return (
     <div className="form-newArt__block">
       <p className="form-newArt__p">
@@ -41,7 +42,7 @@ function ImgInput({ onChange, onDelete, preview }) {
                   >
                     X
                   </button>
-                  <img src={img.url} alt="" />
+                  <img  src={img.url} alt="" />
                 </>
               )}
               <div className="form-newArt__img-cover"></div>

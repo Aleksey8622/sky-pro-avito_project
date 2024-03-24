@@ -1,26 +1,96 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:8090",
-  prepareHeaders: (headers, api) => {
-    const { user } = api.getState();
-    const { isAuth, token } = user;
-    if (isAuth) {
-      headers.append("Authorization", `Bearer ${token.access_token}`);
+import { setAuth } from "../slice/userSlice";
+const API_URL = "http://localhost:8090";
+// const baseQuery = fetchBaseQuery({
+//   baseUrl: "http://localhost:8090",
+//   prepareHeaders: (headers, api) => {
+//     const { user } = api.getState();
+//     const { isAuth, token } = user;
+//     if (isAuth) {
+//       headers.append("Authorization", `Bearer ${token.access_token}`);
+//     }
+//     return headers;
+//   },
+// });
+export const baseQueryWithReauth = async (args, api, options) => {
+  const baseQuery = fetchBaseQuery({
+    baseUrl: API_URL,
+    prepareHeaders: (headers, api) => {
+      const { user } = api.getState();
+      if (user.isAuth) {
+        const accessToken = user.token?.access_token;
+        headers.append("Authorization", `Bearer ${accessToken}`);
+      }
+      return headers;
+    },
+  });
+  const result = await baseQuery(args, api, options);
+  if (result.data) {
+    return result;
+  }
+  if (result?.error?.status === 401) {
+    const { token } = api.getState().user;
+    if (!token) {
+      window.location.href = `${API_URL}/login`;
+      return;
     }
-    return headers;
-  },
-});
+    const { access_token, refresh_token } = token;
+    console.log(access_token, refresh_token);
+    if (!access_token || !refresh_token) {
+      window.location.href = `${API_URL}/login`;
+      return;
+    }
+
+    const resultAuth = await baseQuery(
+      {
+        url: `${API_URL}/auth/login`,
+        method: "PUT",
+        body: {
+          access_token,
+          refresh_token,
+        },
+      },
+      api,
+      options
+    );
+    if (resultAuth?.error) {
+      window.location.href = `${API_URL}/login`;
+      return;
+    }
+    api.dispatch(
+      setAuth({
+        isAuth: true,
+        token: resultAuth.data,
+      })
+    );
+    localStorage.setItem("token", JSON.stringify(resultAuth.data));
+    const retryResult = await baseQuery(args, api, options);
+    if (retryResult?.error?.status === 401) {
+      window.location.href = `${API_URL}/login`;
+      return;
+    }
+    return retryResult;
+  } else {
+    return result;
+  }
+};
 
 export const advertisementApi = createApi({
   reducerPath: "advertisementApi",
-  baseQuery,
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     getAdvertisements: builder.query({
       query: () => "/ads",
+      providesTags: ["ads"],
+    }),
+    getUserAdvertisements: builder.query({
+      query: ({ user_id }) => `/ads?user_id=${user_id}`,
     }),
     getCurrentUserAds: builder.query({
       query: () => "/ads/me",
+    }),
+    getCurrentUser: builder.query({
+      query: () => "/user",
     }),
     getAdId: builder.query({
       query: ({ id }) => `/ads/${id}`,
@@ -54,6 +124,7 @@ export const advertisementApi = createApi({
         method: "POST",
         body: images,
       }),
+      invalidatesTags: ["ads"],
     }),
     addImg: builder.mutation({
       query: ({ id, image }) => ({
@@ -97,4 +168,6 @@ export const {
   useAddImgMutation,
   useEditAdMutation,
   useDeleteImgMutation,
+  useGetUserAdvertisementsQuery,
+  useGetCurrentUserQuery,
 } = advertisementApi;

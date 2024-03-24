@@ -3,6 +3,10 @@ const initialState = {
   isAuth: !!localStorage.getItem("user") ?? false,
   token: JSON.parse(localStorage.getItem("token")) ?? null,
   user: JSON.parse(localStorage.getItem("user")) ?? null,
+  searchAds: { search: "" },
+  filteredAds: [],
+  AdsForFilter: [],
+  isSearch: false,
 };
 const userSlice = createSlice({
   name: "user",
@@ -21,7 +25,35 @@ const userSlice = createSlice({
     setUserData: (state, action) => {
       state.user = action.payload;
     },
+    setSearch: (state, action) => {
+      state.searchAds[action.payload.nameFilter] = action.payload.valueFilter;
+      state.filteredAds = state.AdsForFilter;
+
+      if (!state.searchAds.search) {
+        state.isSearch = false;
+        return;
+      }
+
+      state.isSearch = true;
+
+      if (state.searchAds.search) {
+        state.filteredAds = state.AdsTracks.filter((track) => {
+          return (
+            track.title
+              .toLowerCase()
+              .includes(state.filters.search.toLowerCase()) ||
+            track.author
+              .toLowerCase()
+              .includes(state.filters.search.toLowerCase())
+          );
+        });
+      }
+    },
+    setSearchAds: (state, action) => {
+      state.AdsForFilter = action.payload;
+    },
   },
 });
-export const { resetAuth, setAuth, setUserData } = userSlice.actions;
+export const { resetAuth, setAuth, setUserData, setSearchAds, setSearch } =
+  userSlice.actions;
 export default userSlice.reducer;

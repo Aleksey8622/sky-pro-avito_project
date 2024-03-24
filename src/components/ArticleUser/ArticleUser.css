@@ -6,6 +6,20 @@
 .btn-hov02:hover {
     background-color: #0080C1;
 }
+.article__btn-user{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #009EE4;
+    border-radius: 6px;
+    border: 1px solid #009EE4;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+}
 
 .article__fill-img:hover::before {
     border-top: 2px solid #0080C1;

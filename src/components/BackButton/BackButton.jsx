@@ -6,7 +6,7 @@ function BackButton() {
     <div className="main__container">
       <div className="main__menu menu">
         <a className="menu__logo-link" href="" target="_blank">
-          <img className="menu__logo-img" src="img/logo.png" alt="logo" />
+          <img className="menu__logo-img" src="/img/logo.png" alt="logo" />
         </a>
         <form className="menu__form" action="#">
           <Link to="/">

@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useGetCurrentUserAdsQuery } from "../../store/redux/api-advertisement";
+import {
+  useGetCurrentUserAdsQuery,
+  useGetCurrentUserQuery,
+} from "../../store/redux/api-advertisement";
 import Advertisement from "../MainPage/Advertisement/Advertisement";
 import "./Profile.css";
 function Profile() {
   const { data } = useGetCurrentUserAdsQuery();
+  const { data: user } = useGetCurrentUserQuery();
   useEffect(() => {
     console.log(data);
+    console.log(user)
   }, [data]);
   return (
     <>
       <main className="main">
         <div className="main__container">
           <div className="main__center-block">
-            <h2 className="main__h2">Здравствуйте, Антон!</h2>
+            <h2 className="main__h2">Здравствуйте, {user?.name}!</h2>
             <div className="main__profile profile">
               <div className="profile__content">
                 <h3 className="profile__title title">Настройки профиля</h3>
@@ -40,8 +45,8 @@ function Profile() {
                           id="settings-fname"
                           name="fname"
                           type="text"
-                          value="1"
-                          placeholder="1"
+                          value={user?.name}
+                          placeholder="Имя"
                         />
                       </div>
 
@@ -52,8 +57,8 @@ function Profile() {
                           id="settings-lname"
                           name="lname"
                           type="text"
-                          value="1"
-                          placeholder="1"
+                          value={user?.surname}
+                          placeholder="Фамилия"
                         />
                       </div>
 
@@ -64,8 +69,8 @@ function Profile() {
                           id="settings-city"
                           name="city"
                           type="text"
-                          value="1"
-                          placeholder="1"
+                          value={user?.city}
+                          placeholder="Город"
                         />
                       </div>
 
@@ -76,8 +81,8 @@ function Profile() {
                           id="settings-phone"
                           name="phone"
                           type="tel"
-                          value="1"
-                          placeholder="1"
+                          value={user?.phone}
+                          placeholder="Телефон"
                         />
                       </div>
 

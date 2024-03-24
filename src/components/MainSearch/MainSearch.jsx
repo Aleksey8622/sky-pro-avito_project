@@ -1,6 +1,13 @@
 import React from "react";
-import "../MainPage/MainPage.css"
+import { useDispatch } from "react-redux";
+import { setSearch } from "../../store/slice/userSlice";
+import "../MainPage/MainPage.css";
 function MainSearch() {
+  const dispatch = useDispatch();
+
+  const onChandeSearchValue = (value) => {
+    dispatch(setSearch({ nameFilter: "search", valueFilter: value }));
+  };
   return (
     <div className="main__search search">
       <a className="search__logo-link" href="#" target="_blank">
@@ -19,6 +26,9 @@ function MainSearch() {
           type="search"
           placeholder="Поиск по объявлениям"
           name="search"
+          onChange={(event) =>
+            onChandeSearchValue(event.target.value.toLocaleLowerCase())
+          }
         />
         <input
           className="search__text-mob"

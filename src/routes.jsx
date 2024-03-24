@@ -26,13 +26,13 @@ function AppRoutes() {
               <Route path="reviews" element={<Reviews />}></Route>
             </Route>
             <Route path="/profile" element={<PersonalAccount />}></Route>
-            <Route path="/sellerprofile" element={<UsersAccount />}></Route>
+            <Route
+              path="/sellerprofile/:id/*"
+              element={<UsersAccount />}
+            ></Route>
           </Route>
 
-          <Route
-            path="/login"
-            element={<AuthPage isLoginMode={true} />}
-          ></Route>
+          <Route path="/login" element={<AuthPage isLoginMode={true} />} />
           <Route path="/register" element={<AuthPage />} />
         </Routes>
         {background && (

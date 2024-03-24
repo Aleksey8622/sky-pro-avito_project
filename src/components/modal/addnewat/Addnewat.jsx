@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   useCreateAdMutation,
   useCreateAdTextMutation,
+  useGetAdvertisementsQuery,
 } from "../../../store/redux/api-advertisement";
 import ImgInput from "../../ImgInput/ImgInput";
 import LayoutModal from "../../layoutModal/LayoutModal";
@@ -10,6 +11,8 @@ import "./AddnewatStyle.css";
 function Addnewat({ modalEdit, setModalEdit }) {
   const [preview, setPreview] = useState(Array(5).fill(null));
   const navigate = useNavigate();
+  const { refetch } = useGetAdvertisementsQuery();
+
   const [addImgAd] = useCreateAdMutation();
   const [addTextAd] = useCreateAdTextMutation();
   const [adData, setAdData] = useState({
@@ -37,6 +40,7 @@ function Addnewat({ modalEdit, setModalEdit }) {
         .then((value) => {
           alert("Отправленно");
           navigate(-1);
+          refetch()
         });
     } else {
       const data = new FormData();

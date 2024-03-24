@@ -1,10 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Advertisement from "../MainPage/Advertisement/Advertisement";
-import ArticleHeader from "../ArticleHeader/ArticleHeader";
-import BackButton from "../BackButton/BackButton";
+import { useParams } from "react-router-dom";
 import "./SellerProfile.css";
-function SellerProfile() {
+import {
+  useGetAdIdQuery,
+  useGetAdvertisementsQuery,
+  useGetCurrentUserAdsQuery,
+  useGetUserAdvertisementsQuery,
+} from "../../store/redux/api-advertisement";
+import Advertisement from "../MainPage/Advertisement/Advertisement";
+function SellerProfile({}) {
+  const { id } = useParams();
+  const { data: ads } = useGetUserAdvertisementsQuery({ user_id: id });
+  // console.log(data);
+
+  let moment = require("moment");
+  require("moment/locale/ru");
+
+  const formattedDuration = moment
+    .utc(ads?.[0].user.sells_from)
+    .format(`DD.MM.YYYY`);
+
   return (
     <>
       <main className="main">
@@ -22,9 +37,11 @@ function SellerProfile() {
                     </div>
                   </div>
                   <div className="seller__right">
-                    <h3 className="seller__title">Кирилл Матвеев</h3>
-                    <p className="seller__city">Санкт-Петербург</p>
-                    <p className="seller__inf">Продает товары с августа 2021</p>
+                    <h3 className="seller__title">{ads?.[0].user.name}</h3>
+                    <p className="seller__city">{ads?.[0].user.city}</p>
+                    <p className="seller__inf">
+                      <span>Продает товары с &nbsp;{formattedDuration} г.</span>
+                    </p>
 
                     <div className="seller__img-mob-block">
                       <div className="seller__img-mob">
@@ -47,17 +64,15 @@ function SellerProfile() {
           </div>
           <div className="main__content">
             <div className="content__cards cards__seller_profile">
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
-              <Advertisement />
+              {ads?.map((item) => {
+                return (
+                  <Advertisement
+                    key={item.id}
+                    item={item}
+                    created_on={item.created_on}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

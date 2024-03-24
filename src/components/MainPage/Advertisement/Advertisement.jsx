@@ -26,7 +26,7 @@ function Advertisement({ item, created_on }) {
             <h3 className="card__title">{item.title}</h3>
 
             <p className="card__price">{item.price} ₽</p>
-            <p className="card__place">Санкт Петербург</p>
+            <p className="card__place">{item.user.city}</p>
             <p className="card__date">{formattedDuration[0]}</p>
             <p className="card__date">
               {formattedDuration[1] + formattedDuration[2]}

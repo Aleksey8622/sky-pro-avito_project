@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useParams } from "react-router-dom";
@@ -9,6 +10,16 @@ function ArticleUser() {
   const { data } = useGetAdIdQuery({ id });
   const userData = useSelector((state) => state.user.user);
   const { pathname } = useLocation();
+  console.log(userData);
+  console.log(data);
+  const timeSale = moment
+  .utc(data?.user.sells_from)
+  .format(` DD.MM.YYYY`)
+
+  const formattedDuration = moment
+  .utc(data?.created_on)
+  .format(` DD.MM.YYYY г., в h:mm`)
+  .split(",");
   return (
     <>
       <main className="main">
@@ -52,18 +63,18 @@ function ArticleUser() {
               <div className="article__block">
                 <h3 className="article__title title">{data?.title}</h3>
                 <div className="article__info">
-                  <p className="article__date">{data?.created_on}</p>
+                  <p className="article__date">Опубликованно:{formattedDuration}</p>
                   <p className="article__city">{data?.user.city}</p>
                   <p className="article__link">23 отзыва</p>
                 </div>
-                <p className="article__price">{data?.price}</p>
-                <button className="article__btn btn-hov02">
+                <p className="article__price">{data?.price} ₽</p>
+                <button className="article__btn-user btn-hov02">
                   Показать&nbsp;телефон
                   <span>{data?.user.phone}</span>
                 </button>
                 {data?.user_id === userData?.id && (
                   <Link
-                    className="article__btn btn-hov02"
+                    className="article__btn-user btn-hov02"
                     to={`${pathname}/edit`}
                   >
                     <span>Редактировать</span>
@@ -74,11 +85,17 @@ function ArticleUser() {
                     <img src="" alt="" />
                   </div>
                   <div className="author__cont">
-                    <Link to="/sellerprofile">
+                    <Link
+                      to={
+                        data?.user_id === userData?.id
+                          ? "/profile"
+                          : `/sellerprofile/${data?.user.id}`
+                      }
+                    >
                       <p className="author__name">{data?.user.name}</p>
                     </Link>
                     <p className="author__about">
-                      Продает товары с {data?.user.sells_from}
+                      Продает товары с {timeSale} г.
                     </p>
                   </div>
                 </div>
