@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import React from "react";
 import { useLazyGetUserQuery } from "../store/redux/userApi";
 import { useDispatch } from "react-redux";
@@ -16,6 +16,7 @@ const checkAuth = () => {
     return false;
   }
 };
+
 function AuthProvider({ children }) {
   const dispatch = useDispatch();
   const [getUser, { data }] = useLazyGetUserQuery();
@@ -24,6 +25,14 @@ function AuthProvider({ children }) {
     setIsAuth(true);
     localStorage.setItem("token", JSON.stringify(token));
     dispatch(setAuth({ isAuth: true, token }));
+    updateUser();
+  };
+  useEffect(() => {
+    if (isAuth) {
+      updateUser();
+    }
+  }, [data]);
+  function updateUser() {
     getUser()
       .unwrap()
       .then((data) => {
@@ -31,8 +40,7 @@ function AuthProvider({ children }) {
 
         dispatch(setUserData(data));
       });
-  };
-
+  }
   const logout = () => {
     setIsAuth(false);
     localStorage.removeItem("token");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 import {
@@ -8,10 +8,21 @@ import {
 import "./AuthPageStyle.css";
 function AuthPage({ isLoginMode = false }) {
   const { login } = useAuth();
-  const [signIn] = useSignInMutation();
-  const [register] = useSignUpMutation();
+  const [signIn, error] = useSignInMutation();
+  const [register, registerError] = useSignUpMutation();
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const [isLodingButton, setIsLodingButton] = useState(false);
+  const [errorMessage, setError] = useState(null);
+
+  useEffect(() => {
+    if (error) {
+      setError(error.error);
+    }
+    if (registerError) {
+      setError(registerError.error);
+    }
+  }, [error, registerError]);
   const [registerData, setRegisterData] = useState({
     email: "",
     password: "",
@@ -31,8 +42,16 @@ function AuthPage({ isLoginMode = false }) {
     setRegisterData({ ...registerData, [name]: value });
   };
   const handleLogin = async () => {
-    if (!loginData.email.trim() || !loginData.password.trim()) {
-      alert("заполните поля");
+    if (!loginData.email.trim() && !loginData.password.trim()) {
+      setError("Заполните почту и пароль");
+      return;
+    }
+    if (!loginData.email.trim()) {
+      setError("Заполните почту");
+      return;
+    }
+    if (!loginData.password.trim()) {
+      setError("Заполните пароль");
       return;
     }
     signIn({ password: loginData.password, email: loginData.email })
@@ -42,25 +61,48 @@ function AuthPage({ isLoginMode = false }) {
         navigate("/");
       })
       .catch((error) => {
-        alert(error.error);
+        setError(error);
       });
   };
 
   const handleRegister = async () => {
-    if (
-      !registerData.email.trim() ||
-      !registerData.password.trim() ||
-      !registerData.name.trim() ||
-      !registerData.repeatPassword.trim()
-    ) {
-      alert("заполните поля");
+    // if (
+    //   !registerData.email.trim() ||
+    //   !registerData.password.trim() ||
+    //   !registerData.name.trim() ||
+    //   !registerData.repeatPassword.trim()
+    // ) {
+    //   setError("Заполните поля");
+    //   return;
+    // }
+
+    // if (registerData.password !== registerData.repeatPassword) {
+    //   alert("пароль");
+    //   return;
+    // }
+    if (!registerData.email.trim() && !registerData.password.trim()) {
+      setError("Заполните почту, имя и пароль");
+      return;
+    }
+
+    if (!registerData.email.trim()) {
+      setError("Заполните почту");
+      return;
+    }
+    if (!registerData.repeatPassword) {
+      setError("Заполните пароль");
+      return;
+    }
+    if (!registerData.name) {
+      setError("Заполните имя");
       return;
     }
 
     if (registerData.password !== registerData.repeatPassword) {
-      alert("пароль");
+      setError("Пароли не совпадают");
       return;
     }
+    setIsLodingButton(true);
     register({
       email: registerData.email,
       password: registerData.password,
@@ -74,7 +116,7 @@ function AuthPage({ isLoginMode = false }) {
         navigate("/login");
       })
       .catch((error) => {
-        alert(error.error);
+        setError(error);
       });
   };
   return (
@@ -90,7 +132,7 @@ function AuthPage({ isLoginMode = false }) {
                   </Link>
                 </div>
                 <input
-                  value={loginData.emai}
+                  value={loginData.email}
                   onChange={onLoginChange}
                   className="modal__input login"
                   type="text"
@@ -107,7 +149,9 @@ function AuthPage({ isLoginMode = false }) {
                   id="formpassword"
                   placeholder="Пароль"
                 />
+
                 <button
+                  disabled={isLodingButton}
                   type="button"
                   className="modal__btn-enter"
                   id="btnEnter"
@@ -116,10 +160,15 @@ function AuthPage({ isLoginMode = false }) {
                   Войти
                 </button>
                 <Link to="/register">
-                  <button className="modal__btn-signup" id="btnSignUp">
+                  <button
+                    type="button"
+                    className="modal__btn-signup"
+                    id="btnSignUp"
+                  >
                     Зарегистрироваться
                   </button>
                 </Link>
+                {errorMessage && <div className="error">{errorMessage}</div>}
               </form>
             </div>
           </div>
@@ -209,6 +258,7 @@ function AuthPage({ isLoginMode = false }) {
                 >
                   Зарегистрироваться
                 </button>
+                {errorMessage && <div className="error">{errorMessage}</div>}
               </form>
             </div>
           </div>

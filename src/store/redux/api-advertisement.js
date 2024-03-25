@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setAuth } from "../slice/userSlice";
-const API_URL = "http://localhost:8090";
+const API_URL = "http://localhost:3000";
+const BASE_URL = "http://localhost:8090";
+
 // const baseQuery = fetchBaseQuery({
 //   baseUrl: "http://localhost:8090",
 //   prepareHeaders: (headers, api) => {
@@ -14,7 +16,7 @@ const API_URL = "http://localhost:8090";
 // });
 export const baseQueryWithReauth = async (args, api, options) => {
   const baseQuery = fetchBaseQuery({
-    baseUrl: API_URL,
+    baseUrl: BASE_URL,
     prepareHeaders: (headers, api) => {
       const { user } = api.getState();
       if (user.isAuth) {
@@ -43,7 +45,7 @@ export const baseQueryWithReauth = async (args, api, options) => {
 
     const resultAuth = await baseQuery(
       {
-        url: `${API_URL}/auth/login`,
+        url: `${BASE_URL}/auth/login`,
         method: "PUT",
         body: {
           access_token,
@@ -78,6 +80,7 @@ export const baseQueryWithReauth = async (args, api, options) => {
 export const advertisementApi = createApi({
   reducerPath: "advertisementApi",
   baseQuery: baseQueryWithReauth,
+
   endpoints: (builder) => ({
     getAdvertisements: builder.query({
       query: () => "/ads",
@@ -170,4 +173,6 @@ export const {
   useDeleteImgMutation,
   useGetUserAdvertisementsQuery,
   useGetCurrentUserQuery,
+  useGetAdReviewsQuery,
+  usePostAdReviewsMutation,
 } = advertisementApi;

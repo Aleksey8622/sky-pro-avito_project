@@ -11,7 +11,7 @@ const MainPage = () => {
   const dispatch = useDispatch();
   const searchDataRedux = useSelector((state) => state.user.filteredAds);
   const initialAds = useSelector((state) => state.user.AdsForFilter);
-  const isSearch = useSelector((state) => state.user.isFiltred);
+  const isSearch = useSelector((state) => state.user.isSearch);
   let newSearchData = isSearch ? searchDataRedux : initialAds;
   useEffect(() => {
     dispatch(setSearchAds(data));

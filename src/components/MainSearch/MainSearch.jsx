@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSearch } from "../../store/slice/userSlice";
 import "../MainPage/MainPage.css";
 function MainSearch() {
   const dispatch = useDispatch();
-
-  const onChandeSearchValue = (value) => {
-    dispatch(setSearch({ nameFilter: "search", valueFilter: value }));
+  const [searchValue, setSearchValue] = useState("");
+  const onClick = () => {
+    dispatch(setSearch({ nameFilter: "search", valueFilter: searchValue }));
   };
+
   return (
     <div className="main__search search">
       <a className="search__logo-link" href="#" target="_blank">
@@ -26,8 +27,9 @@ function MainSearch() {
           type="search"
           placeholder="Поиск по объявлениям"
           name="search"
+          value={searchValue}
           onChange={(event) =>
-            onChandeSearchValue(event.target.value.toLocaleLowerCase())
+            setSearchValue(event.target.value.toLocaleLowerCase())
           }
         />
         <input
@@ -36,7 +38,13 @@ function MainSearch() {
           placeholder="Поиск"
           name="search-mob"
         />
-        <button className="search__btn btn-hov02">Найти</button>
+        <button
+          onClick={onClick}
+          type="button"
+          className="search__btn btn-hov02"
+        >
+          Найти
+        </button>
       </form>
     </div>
   );

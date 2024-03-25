@@ -37,15 +37,10 @@ const userSlice = createSlice({
       state.isSearch = true;
 
       if (state.searchAds.search) {
-        state.filteredAds = state.AdsTracks.filter((track) => {
-          return (
-            track.title
-              .toLowerCase()
-              .includes(state.filters.search.toLowerCase()) ||
-            track.author
-              .toLowerCase()
-              .includes(state.filters.search.toLowerCase())
-          );
+        state.filteredAds = state.AdsForFilter.filter((track) => {
+          return track.title
+            .toLowerCase()
+            .includes(state.searchAds.search.toLowerCase());
         });
       }
     },

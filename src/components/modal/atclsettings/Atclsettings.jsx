@@ -33,14 +33,17 @@ function Atclsettings() {
         price: data.price,
         images: data.images,
       });
-      const newPreview = [...preview];
-      data.images.forEach((img, index) => {
-        newPreview.splice(index, 1, {
-          id: img.id,
-          url: `http://localhost:8090/${img.url}`,
+
+      setPreview((prevPreview) => {
+        const newPreview = [...prevPreview];
+        data.images.forEach((img, index) => {
+          newPreview.splice(index, 1, {
+            id: img.id,
+            url: `http://localhost:8090/${img.url}`,
+          });
         });
+        return newPreview;
       });
-      setPreview(newPreview);
     }
   }, [data]);
   const onChange = (e) => {
@@ -77,35 +80,66 @@ function Atclsettings() {
       alert("много фото");
       return;
     }
-    const index = editData.images.length;
     const file = e.target.files?.[0];
+
     if (file) {
-      const images = [...editData.images];
+      const index = editData.images.length;
       const url = URL.createObjectURL(file);
-      setEditData({ ...editData, images: [...images, { url, id: index }] });
-      setNewImages([...newImages, { file, id: index }]);
-      const newPreview = [...preview];
-      newPreview.splice(index, 1, { url, id: index });
-      setPreview(newPreview);
+      setEditData((prevData) => {
+        return {
+          ...prevData,
+          images: [...prevData.images, { url, id: index }],
+        };
+      });
+
+      setNewImages((prevImages) => {
+        return [...prevImages, { file, id: index }];
+      });
+
+      setPreview((prevPreview) => {
+        const newPreview = [...prevPreview];
+        newPreview.splice(index, 1, { url, id: index });
+        return newPreview;
+      });
     }
   };
+
   const onDelete = (e, id) => {
     e.stopPropagation();
-    const images = [...newImages];
-    const index = images.findIndex((elem) => elem.id === id);
-    if (index !== -1) {
-      images.splice(index, 1);
-      setNewImages(images);
-    }
-    const newPreview = [...preview];
-    const previewIndex = newPreview.findIndex((elem) => elem.id === id);
-    if (index !== -1) {
-      newPreview.splice(index, 1);
-      newPreview.push(null);
-      setPreview(newPreview);
-    }
-    const img = editData.images.find((elem) => elem.id === id);
-    setDeleteImages([...deleteImages, img.url]);
+
+    setNewImages((prevImages) => {
+      const index = prevImages.findIndex((elem) => elem.id === id);
+      if (index !== -1) {
+        const images = [...prevImages];
+        images.splice(index, 1);
+        return images;
+      }
+      return prevImages;
+    });
+
+    setPreview((prevPreview) => {
+      const previewIndex = prevPreview.findIndex((elem) => elem.id === id);
+      if (previewIndex !== -1) {
+        const newPreview = [...prevPreview];
+        newPreview.splice(previewIndex, 1);
+        newPreview.push(null);
+        return newPreview;
+      }
+      return prevPreview;
+    });
+
+    setEditData((prevData) => {
+      return {
+        ...prevData,
+        images: prevData.images.filter((elem) => elem.id !== id),
+      };
+    });
+
+    setDeleteImages((prevDeleteImages) => {
+      const img = editData.images.find((elem) => elem.id === id);
+      const deleteUrl = img ? img.url : null;
+      return [...prevDeleteImages, deleteUrl];
+    });
   };
   return (
     <LayoutModal>

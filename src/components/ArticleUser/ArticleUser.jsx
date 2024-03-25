@@ -2,24 +2,43 @@ import moment from "moment";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { useGetAdIdQuery } from "../../store/redux/api-advertisement";
+import {
+  useGetAdIdQuery,
+  useGetAdReviewsQuery,
+
+} from "../../store/redux/api-advertisement";
 
 import "./ArticleUser.css";
 function ArticleUser() {
   const { id } = useParams();
+  
+  const { data: comments } = useGetAdReviewsQuery({ id });
   const { data } = useGetAdIdQuery({ id });
   const userData = useSelector((state) => state.user.user);
   const { pathname } = useLocation();
   console.log(userData);
   console.log(data);
-  const timeSale = moment
-  .utc(data?.user.sells_from)
-  .format(` DD.MM.YYYY`)
+  const timeSale = moment.utc(data?.user.sells_from).format(` DD.MM.YYYY`);
+  function pluralizeReviews(numReviews) {
+    if (numReviews % 100 >= 11 && numReviews % 100 <= 19) {
+      return "отзывов";
+    }
 
+    switch (numReviews % 10) {
+      case 1:
+        return "отзыв";
+      case 2:
+      case 3:
+      case 4:
+        return "отзыва";
+      default:
+        return "отзывов";
+    }
+  }
   const formattedDuration = moment
-  .utc(data?.created_on)
-  .format(` DD.MM.YYYY г., в h:mm`)
-  .split(",");
+    .utc(data?.created_on)
+    .format(` DD.MM.YYYY г., в h:mm`)
+    .split(",");
   return (
     <>
       <main className="main">
@@ -63,9 +82,15 @@ function ArticleUser() {
               <div className="article__block">
                 <h3 className="article__title title">{data?.title}</h3>
                 <div className="article__info">
-                  <p className="article__date">Опубликованно:{formattedDuration}</p>
+                  <p className="article__date">
+                    Опубликованно:{formattedDuration}
+                  </p>
                   <p className="article__city">{data?.user.city}</p>
-                  <p className="article__link">23 отзыва</p>
+                  <Link to={`${pathname}/reviews`}>
+                    <p className="article__link">
+                      {comments?.length} {pluralizeReviews(comments?.length)}
+                    </p>
+                  </Link>
                 </div>
                 <p className="article__price">{data?.price} ₽</p>
                 <button className="article__btn-user btn-hov02">
