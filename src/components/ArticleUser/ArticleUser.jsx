@@ -18,7 +18,7 @@ function ArticleUser() {
   const { data } = useGetAdIdQuery({ id });
   const userData = useSelector((state) => state.user.user);
   const [isShowPhone, setIsShowPhone] = useState(false);
-
+  const [preview, setPreview] = useState();
   const { pathname } = useLocation();
   console.log(userData);
   console.log(data);
@@ -56,6 +56,14 @@ function ArticleUser() {
         console.log(error.error);
       });
   };
+  useEffect(() => {
+    if (data) {
+      let preview = data.images.length
+        ? `http://localhost:8090/${data.images?.[0].url}`
+        : "/img/notImage.png";
+      setPreview(preview);
+    }
+  }, [data]);
   return (
     <>
       <main className="main">
@@ -64,20 +72,19 @@ function ArticleUser() {
             <div className="article__left">
               <div className="article__fill-img">
                 <div className="article__img">
-                  <img
-                    src={
-                      data?.images.length
-                        ? `http://localhost:8090/${data.images[0]?.url}`
-                        : "/img/no_foto.png"
-                    }
-                    alt=""
-                  />
+                  <img src={preview ?? "/img/no_foto.png"} alt="" />
                 </div>
 
                 <div className="article__img-bar">
                   {data?.images
                     ? data.images.map((img) => (
-                        <div key={img.id} className="article__img-bar-div">
+                        <div
+                          onClick={() =>
+                            setPreview(`http://localhost:8090/${img.url}`)
+                          }
+                          key={img.id}
+                          className="article__img-bar-div"
+                        >
                           <img
                             src={`http://localhost:8090/${img.url}`}
                             alt=""
