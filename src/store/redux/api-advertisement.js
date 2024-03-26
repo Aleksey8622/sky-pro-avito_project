@@ -138,6 +138,9 @@ export const advertisementApi = createApi({
         method: "POST",
         body: image,
       }),
+      invalidatesTags: (result) => {
+        return [{ type: "ad", id: result.id }];
+      },
     }),
     editAd: builder.mutation({
       query: ({ id, title, description, price }) => ({
@@ -164,6 +167,9 @@ export const advertisementApi = createApi({
         url: `/ads/${id}/image?file_url=${file_url}`,
         method: "DELETE",
       }),
+      invalidatesTags: (result) => {
+        return [{ type: "ad", id: result.id }];
+      },
     }),
   }),
 });
