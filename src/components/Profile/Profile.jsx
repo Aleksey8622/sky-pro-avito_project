@@ -74,6 +74,9 @@ function Profile() {
       .unwrap()
       .then(() => {
         alert("добавленно");
+      })
+      .catch(() => {
+        alert("Вы не поменяли фото");
       });
   };
   return (
