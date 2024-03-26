@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./SellerProfile.css";
 import {
@@ -20,7 +20,9 @@ function SellerProfile({}) {
   const formattedDuration = moment
     .utc(ads?.[0].user.sells_from)
     .format(`DD.MM.YYYY`);
-
+  useEffect(() => {
+    console.log(ads?.[0].user.avatar);
+  }, []);
   return (
     <>
       <main className="main">
@@ -33,7 +35,10 @@ function SellerProfile({}) {
                   <div className="seller__left">
                     <div className="seller__img">
                       <a href="" target="_self">
-                        <img src="#" alt="" />
+                        <img
+                          src={`http://localhost:8090/${ads?.[0].user.avatar}`}
+                          alt=""
+                        />
                       </a>
                     </div>
                   </div>
