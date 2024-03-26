@@ -91,6 +91,7 @@ export const advertisementApi = createApi({
     }),
     getCurrentUserAds: builder.query({
       query: () => "/ads/me",
+      providesTags: ["ads"],
     }),
     getCurrentUser: builder.query({
       query: () => "/user",
@@ -161,6 +162,7 @@ export const advertisementApi = createApi({
         url: `/ads/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["ads"],
     }),
     deleteImg: builder.mutation({
       query: ({ id, file_url }) => ({
@@ -175,6 +177,7 @@ export const advertisementApi = createApi({
 });
 
 export const {
+  useDeleteAdMutation,
   useGetAdvertisementsQuery,
   useCreateAdTextMutation,
   useGetCurrentUserAdsQuery,

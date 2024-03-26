@@ -1,9 +1,10 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import {
+  useDeleteAdMutation,
   useGetAdIdQuery,
   useGetAdReviewsQuery,
 } from "../../store/redux/api-advertisement";
@@ -11,7 +12,8 @@ import {
 import "./ArticleUser.css";
 function ArticleUser() {
   const { id } = useParams();
-
+  const navigate = useNavigate();
+  const [deleteAd] = useDeleteAdMutation();
   const { data: comments, refetch } = useGetAdReviewsQuery({ id });
   const { data } = useGetAdIdQuery({ id });
   const userData = useSelector((state) => state.user.user);
@@ -42,7 +44,18 @@ function ArticleUser() {
     .utc(data?.created_on)
     .format(` DD.MM.YYYY г., в h:mm`)
     .split(",");
-    
+
+  const daleteAd = () => {
+    deleteAd({ id })
+      .unwrap()
+      .then(() => {
+        alert("Удаленно");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error.error);
+      });
+  };
   return (
     <>
       <main className="main">
@@ -117,6 +130,16 @@ function ArticleUser() {
                     <span>Редактировать</span>
                   </Link>
                 )}
+                {data?.user_id === userData?.id && (
+                  <button
+                    type="button"
+                    onClick={daleteAd}
+                    className="article__btn-user btn-hov02"
+                  >
+                    Снять с публикации
+                  </button>
+                )}
+
                 <div className="article__author author">
                   <div className="author__img">
                     <img

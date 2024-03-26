@@ -57,6 +57,7 @@ function Addnewat({ modalEdit, setModalEdit }) {
         .then((value) => {
           alert("Отправленно");
           navigate(-1);
+          
         });
     }
   };
