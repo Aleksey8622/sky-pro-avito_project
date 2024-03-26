@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 function ImgInput({ onChange, onDelete, preview }) {
   const ref = useRef(null);
@@ -9,7 +9,9 @@ function ImgInput({ onChange, onDelete, preview }) {
     onChange(e);
     ref.current.value = "";
   };
-
+  useEffect(() => {
+    console.log(preview);
+  }, []);
   return (
     <div className="form-newArt__block">
       <p className="form-newArt__p">
@@ -22,9 +24,9 @@ function ImgInput({ onChange, onDelete, preview }) {
         style={{ display: "none" }}
       />
       <div className="form-newArt__bar-img" onClick={onClick}>
-        {preview?.map((img) => {
+        {preview?.map((img, index) => {
           return (
-            <div className="form-newArt__img">
+            <div key={index} className="form-newArt__img">
               {img && (
                 <>
                   <button

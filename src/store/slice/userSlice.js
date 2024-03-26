@@ -1,8 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+const chechLSParse = (key) => {
+  try {
+    const data = JSON.parse(localStorage.getItem(key));
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
 const initialState = {
-  isAuth: !!localStorage.getItem("user") ?? false,
-  token: JSON.parse(localStorage.getItem("token")) ?? null,
-  user: JSON.parse(localStorage.getItem("user")) ?? null,
+  isAuth: !!chechLSParse("token"),
+  token: chechLSParse("token"),
+  user: chechLSParse("user"),
   searchAds: { search: "" },
   filteredAds: [],
   AdsForFilter: [],

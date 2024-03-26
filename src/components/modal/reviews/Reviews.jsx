@@ -68,7 +68,7 @@ function Reviews() {
         <div className="modal__reviews reviews">
           {comments?.map((comment) => {
             return (
-              <div className="reviews__review review">
+              <div key={comment.id} className="reviews__review review">
                 <div className="review__item">
                   <div className="review__left">
                     <div className="review__img">

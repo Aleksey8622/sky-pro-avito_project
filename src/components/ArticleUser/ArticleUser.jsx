@@ -64,7 +64,7 @@ function ArticleUser() {
                 <div className="article__img-bar">
                   {data?.images
                     ? data.images.map((img) => (
-                        <div className="article__img-bar-div">
+                        <div key={img.id} className="article__img-bar-div">
                           <img
                             src={`http://localhost:8090/${img.url}`}
                             alt=""

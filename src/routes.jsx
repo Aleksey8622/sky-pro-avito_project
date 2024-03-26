@@ -11,6 +11,7 @@ import Layout from "./components/layout/Layout";
 import Addnewat from "./components/modal/addnewat/Addnewat";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import AuthProvider from "./context/AuthProvider";
+import NotFound from "./components/NotFound/NotFound";
 
 function AppRoutes() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function AppRoutes() {
 
           <Route path="/login" element={<AuthPage isLoginMode={true} />} />
           <Route path="/register" element={<AuthPage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         {background && (
           <Routes>
