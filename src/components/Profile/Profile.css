@@ -138,6 +138,10 @@
     border: 1px solid #009EE4;
 }
 
+.settings__change-photo:hover {
+    background-color: #0080C1;
+}
+
 .settings__right {
     width: 630px;
 }
