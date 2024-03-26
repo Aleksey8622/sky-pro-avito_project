@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "./SellerProfile.css";
 import {
@@ -11,6 +11,7 @@ import Advertisement from "../MainPage/Advertisement/Advertisement";
 function SellerProfile({}) {
   const { id } = useParams();
   const { data: ads } = useGetUserAdvertisementsQuery({ user_id: id });
+  const [isShowPhone, setIsShowPhone] = useState(false);
   // console.log(data);
 
   let moment = require("moment");
@@ -51,9 +52,17 @@ function SellerProfile({}) {
                       </div>
                     </div>
 
-                    <button className="seller__btn btn-hov02">
+                    <button
+                      type="button"
+                      onClick={() => setIsShowPhone(!isShowPhone)}
+                      className="seller__btn btn-hov02"
+                    >
                       Показать&nbsp;телефон
-                      <span>8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
+                      <span>
+                        {isShowPhone
+                          ? ads?.[0].user.phone
+                          : `${ads?.[0].user.phone.slice(0, 3)} XXX XX XX`}
+                      </span>
                     </button>
                   </div>
                 </div>

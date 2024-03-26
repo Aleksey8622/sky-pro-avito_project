@@ -20,7 +20,9 @@ function Advertisement({ item, created_on }) {
                 src={`http://localhost:8090/${item.images[0]?.url}`}
                 alt="picture"
               />
-            ) : null}
+            ) : (
+              <img src="/img/no_foto.png" />
+            )}
           </div>
           <div className="card__content">
             <h3 className="card__title">{item.title}</h3>

@@ -97,6 +97,9 @@ export const advertisementApi = createApi({
     }),
     getAdId: builder.query({
       query: ({ id }) => `/ads/${id}`,
+      providesTags: (result) => {
+        return [{ type: "ad", id: result.id }];
+      },
     }),
     getAdReviews: builder.query({
       query: ({ id }) => `/ads/${id}/comments`,
@@ -146,6 +149,9 @@ export const advertisementApi = createApi({
           price,
         },
       }),
+      invalidatesTags: (result) => {
+        return [{ type: "ad", id: result.id }];
+      },
     }),
     deleteAd: builder.mutation({
       query: ({ id }) => ({

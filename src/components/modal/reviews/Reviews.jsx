@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./reviewsStyle.css";
 import LayoutModal from "../../layoutModal/LayoutModal";
 import { useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import {
   useGetAdReviewsQuery,
   usePostAdReviewsMutation,
 } from "../../../store/redux/api-advertisement";
+
 function Reviews() {
   const { id } = useParams();
   const [postComment] = usePostAdReviewsMutation();
@@ -24,6 +25,15 @@ function Reviews() {
         setComment("");
       });
   };
+  let moment = require("moment");
+  require("moment/locale/ru");
+  const formattedDuration = moment
+    .utc(comment?.created_on)
+    .format(`dddd, DD.MM.YYYY, в h:mm`)
+    .split(",");
+  useEffect(() => {
+    console.log(comments);
+  }, []);
   return (
     <LayoutModal>
       <div className="modal__scroll">
@@ -62,12 +72,15 @@ function Reviews() {
                 <div className="review__item">
                   <div className="review__left">
                     <div className="review__img">
-                      <img src="" alt="" />
+                      <img
+                        src={`http://localhost:8090/${comment?.author.avatar}`}
+                        alt=""
+                      />
                     </div>
                   </div>
                   <div className="review__right">
                     <p className="review__name font-t">
-                      {comment?.author.name} <span> {comment?.created_on}</span>
+                      {comment?.author.name} <span> {formattedDuration}</span>
                     </p>
                     <h5 className="review__title font-t">Комментарий</h5>
                     <p className="review__text font-t">{comment?.text}</p>

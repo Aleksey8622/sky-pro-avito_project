@@ -5,6 +5,7 @@ import {
   useDeleteImgMutation,
   useEditAdMutation,
   useGetAdIdQuery,
+  useGetAdvertisementsQuery,
 } from "../../../store/redux/api-advertisement";
 import ImgInput from "../../ImgInput/ImgInput";
 import LayoutModal from "../../layoutModal/LayoutModal";
@@ -20,6 +21,7 @@ function Atclsettings() {
   const [deleteImages, setDeleteImages] = useState([]);
   const [preview, setPreview] = useState(Array(5).fill(null));
   const { id } = useParams();
+  const { refetch } = useGetAdvertisementsQuery();
   const { data } = useGetAdIdQuery({ id });
   const [addImg] = useAddImgMutation();
   const [editAd] = useEditAdMutation();
@@ -73,6 +75,8 @@ function Atclsettings() {
             addImg({ id, image: data });
           });
         }
+        alert("Сохраненно");
+        refetch();
       });
   };
   const onImgChange = (e) => {

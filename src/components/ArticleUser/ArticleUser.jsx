@@ -1,20 +1,22 @@
 import moment from "moment";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useParams } from "react-router-dom";
+
 import {
   useGetAdIdQuery,
   useGetAdReviewsQuery,
-
 } from "../../store/redux/api-advertisement";
 
 import "./ArticleUser.css";
 function ArticleUser() {
   const { id } = useParams();
-  
-  const { data: comments } = useGetAdReviewsQuery({ id });
+
+  const { data: comments, refetch } = useGetAdReviewsQuery({ id });
   const { data } = useGetAdIdQuery({ id });
   const userData = useSelector((state) => state.user.user);
+  const [isShowPhone, setIsShowPhone] = useState(false);
+
   const { pathname } = useLocation();
   console.log(userData);
   console.log(data);
@@ -35,10 +37,12 @@ function ArticleUser() {
         return "отзывов";
     }
   }
+
   const formattedDuration = moment
     .utc(data?.created_on)
     .format(` DD.MM.YYYY г., в h:mm`)
     .split(",");
+    
   return (
     <>
       <main className="main">
@@ -49,7 +53,7 @@ function ArticleUser() {
                 <div className="article__img">
                   <img
                     src={
-                      data?.images
+                      data?.images.length
                         ? `http://localhost:8090/${data.images[0]?.url}`
                         : "/img/no_foto.png"
                     }
@@ -93,9 +97,17 @@ function ArticleUser() {
                   </Link>
                 </div>
                 <p className="article__price">{data?.price} ₽</p>
-                <button className="article__btn-user btn-hov02">
+                <button
+                  type="button"
+                  onClick={() => setIsShowPhone(!isShowPhone)}
+                  className="article__btn-user btn-hov02"
+                >
                   Показать&nbsp;телефон
-                  <span>{data?.user.phone}</span>
+                  <span>
+                    {isShowPhone
+                      ? data?.user.phone
+                      : `${data?.user.phone.slice(0, 3)} XXX XX XX`}
+                  </span>
                 </button>
                 {data?.user_id === userData?.id && (
                   <Link
@@ -107,7 +119,10 @@ function ArticleUser() {
                 )}
                 <div className="article__author author">
                   <div className="author__img">
-                    <img src="" alt="" />
+                    <img
+                      src={`http://localhost:8090/${data?.user.avatar}`}
+                      alt="avatar"
+                    />
                   </div>
                   <div className="author__cont">
                     <Link

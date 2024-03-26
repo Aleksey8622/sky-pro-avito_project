@@ -6,10 +6,12 @@
 .btn-hov02:hover {
     background-color: #0080C1;
 }
-.article__btn-user{
+
+.article__btn-user {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     background-color: #009EE4;
     border-radius: 6px;
     border: 1px solid #009EE4;

@@ -9,7 +9,7 @@ function ImgInput({ onChange, onDelete, preview }) {
     onChange(e);
     ref.current.value = "";
   };
- 
+
   return (
     <div className="form-newArt__block">
       <p className="form-newArt__p">
@@ -33,16 +33,18 @@ function ImgInput({ onChange, onDelete, preview }) {
                     style={{
                       position: "absolute",
                       top: "0px",
-                      left: "0px",
+                      right: "0px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       zIndex: "1",
+                      background: "white",
+                      border: "1px solid white",
                     }}
                   >
                     X
                   </button>
-                  <img  src={img.url} alt="" />
+                  <img src={img.url} alt="" />
                 </>
               )}
               <div className="form-newArt__img-cover"></div>
