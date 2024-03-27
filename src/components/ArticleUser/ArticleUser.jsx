@@ -14,11 +14,11 @@ function ArticleUser() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [deleteAd] = useDeleteAdMutation();
-  const { data: comments, refetch } = useGetAdReviewsQuery({ id });
+  const { data: comments, error, isLoading } = useGetAdReviewsQuery({ id });
   const { data } = useGetAdIdQuery({ id });
   const userData = useSelector((state) => state.user.user);
   const [isShowPhone, setIsShowPhone] = useState(false);
-  const [preview, setPreview] = useState();
+  const [preview, setPreview] = useState("");
   const { pathname } = useLocation();
   console.log(userData);
   console.log(data);
@@ -57,13 +57,19 @@ function ArticleUser() {
       });
   };
   useEffect(() => {
-    if (data) {
-      let preview = data.images.length
-        ? `http://localhost:8090/${data.images?.[0].url}`
-        : "/img/notImage.png";
-      setPreview(preview);
-    }
+    let preview = data.images.length
+      ? `http://localhost:8090/${data.images?.[0].url}`
+      : "/img/notImage.png";
+    setPreview(preview);
   }, [data]);
+  useEffect(() => {
+    if (error?.status === 404) {
+      navigate("/404");
+    }
+  }, [error, navigate]);
+  if (isLoading) {
+    return <div>Загрузка...</div>;
+  }
   return (
     <>
       <main className="main">

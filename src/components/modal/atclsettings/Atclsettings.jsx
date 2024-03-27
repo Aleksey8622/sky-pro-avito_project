@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useAddImgMutation,
   useDeleteImgMutation,
@@ -26,6 +26,7 @@ function Atclsettings() {
   const [addImg] = useAddImgMutation();
   const [editAd] = useEditAdMutation();
   const [deleteImg] = useDeleteImgMutation();
+  const navigate = useNavigate()
   useEffect(() => {
     if (data) {
       setEditData({
@@ -77,6 +78,7 @@ function Atclsettings() {
         }
         alert("Сохраненно");
         refetch();
+        navigate("/")
       });
   };
   const onImgChange = (e) => {

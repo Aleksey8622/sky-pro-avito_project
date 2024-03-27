@@ -98,9 +98,8 @@ export const advertisementApi = createApi({
     }),
     getAdId: builder.query({
       query: ({ id }) => `/ads/${id}`,
-      providesTags: (result) => {
-        return [{ type: "ad", id: result.id }];
-      },
+      providesTags: (result) =>
+        result ? [{ type: "ad", id: result.id }] : ["ad"],
     }),
     getAdReviews: builder.query({
       query: ({ id }) => `/ads/${id}/comments`,
@@ -139,9 +138,8 @@ export const advertisementApi = createApi({
         method: "POST",
         body: image,
       }),
-      invalidatesTags: (result) => {
-        return [{ type: "ad", id: result.id }];
-      },
+      invalidatesTags: (result) =>
+        result ? [{ type: "ad", id: result.id }] : ["ad"],
     }),
     editAd: builder.mutation({
       query: ({ id, title, description, price }) => ({
@@ -153,9 +151,8 @@ export const advertisementApi = createApi({
           price,
         },
       }),
-      invalidatesTags: (result) => {
-        return [{ type: "ad", id: result.id }];
-      },
+      invalidatesTags: (result) =>
+        result ? [{ type: "ad", id: result.id }] : ["ad"],
     }),
     deleteAd: builder.mutation({
       query: ({ id }) => ({
@@ -169,9 +166,8 @@ export const advertisementApi = createApi({
         url: `/ads/${id}/image?file_url=${file_url}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result) => {
-        return [{ type: "ad", id: result.id }];
-      },
+      invalidatesTags: (result) =>
+        result ? [{ type: "ad", id: result.id }] : ["ad"],
     }),
   }),
 });
