@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Addnewat from "../modal/addnewat/Addnewat";
+import React, { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
+
+import { useAuth } from "../../context/useAuth";
 
 import "../MyArticle/MyArticle.css";
 function ArticleHeader() {
-  const [modalEdit, setModalEdit] = useState(false);
+  const location = useLocation();
+  const { isAuth } = useAuth();
+  const { logout } = useContext(AuthContext);
+
   return (
     <header className="header">
       <nav className="header__nav">
@@ -13,19 +18,31 @@ function ArticleHeader() {
             <img className="logo-mob__img" src="img/logo-mob.png" alt="logo" />
           </a>
         </div>
-        <button
-          className="header__btn-putAd btn-hov01"
-          id="btputAd"
-          onClick={() => setModalEdit(true)}
-        >
-          Разместить объявление
-        </button>
-        <Addnewat modalEdit={modalEdit} setModalEdit={setModalEdit} />
-        <Link to="/profile">
-          <button className="header__btn-lk btn-hov01" id="btnlk">
-            Личный кабинет
-          </button>
-        </Link>
+        {isAuth ? (
+          <>
+            <Link
+              to="/add"
+              state={{ background: location }}
+              className="header__btn-putAd btn-hov01"
+            >
+              Разместить объявление
+            </Link>
+            <Link className="header__btn-main-enter btn-hov01" to="/profile">
+              Личный кабинет
+            </Link>
+            <Link
+              className="header__btn-main-enter btn-hov01"
+              to="/"
+              onClick={() => logout()}
+            >
+              Выход
+            </Link>
+          </>
+        ) : (
+          <Link to="/login" className="header__btn-main-enter btn-hov01">
+            Вход в личный кабинет
+          </Link>
+        )}
       </nav>
     </header>
   );

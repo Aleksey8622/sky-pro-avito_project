@@ -24,6 +24,7 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    gap: 20px;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -41,6 +42,9 @@
     color: #FFFFFF;
     font-size: 16px;
     line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main-page__container {
@@ -273,6 +277,7 @@
     font-size: 16px;
     line-height: 21px;
     color: #5F5F5F;
+    white-space: pre-wrap;
 }
 
 .card__place {
