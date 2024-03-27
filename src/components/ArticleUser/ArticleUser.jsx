@@ -57,7 +57,7 @@ function ArticleUser() {
       });
   };
   useEffect(() => {
-    let preview = data.images.length
+    let preview = data?.images?.length
       ? `http://localhost:8090/${data.images?.[0].url}`
       : "/img/notImage.png";
     setPreview(preview);
@@ -82,7 +82,7 @@ function ArticleUser() {
                 </div>
 
                 <div className="article__img-bar">
-                  {data?.images
+                  {data?.images?.[0]
                     ? data.images.map((img) => (
                         <div
                           onClick={() =>
